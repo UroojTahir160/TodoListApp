@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e9a601b1.css",
+    "main.js": "/static/js/main.2476cb48.js",
+    "static/media/allTasksCompleted.png": "/static/media/allTasksCompleted.6cf57078c56f22fc181c.png",
+    "static/media/createTodoListImage.png": "/static/media/createTodoListImage.3992e243c815e87666b7.png",
+    "static/media/noTasksCompleted.png": "/static/media/noTasksCompleted.c543617eb274212b818a.png",
+    "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
+    "static/media/Lora-Italic.ttf": "/static/media/Lora-Italic.e70167c6053aca156095.ttf",
+    "index.html": "/index.html",
+    "main.e9a601b1.css.map": "/static/css/main.e9a601b1.css.map",
+    "main.2476cb48.js.map": "/static/js/main.2476cb48.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e9a601b1.css",
+    "static/js/main.2476cb48.js"
+  ]
+}
