@@ -22,7 +22,7 @@ export const todoSlicer = createSlice({
     },
     updateTodoTask: (state, action) => {
       const { id, title, description, completed } = action.payload;
-      const targetTask = state.todoList.find(task => task.id == id);
+      const targetTask = state.todoList.find(task => task.id === id);
       if (targetTask) {
         targetTask.title = title;
         targetTask.description = description;
@@ -30,7 +30,7 @@ export const todoSlicer = createSlice({
       }
     },
     taskCompletionToggle: (state, action) => {
-      const taskToggled = state.todoList.find((task => task.id == action.payload.id));
+      const taskToggled = state.todoList.find((task => task.id === action.payload.id));
       if (taskToggled) {
         taskToggled.completed = action.payload.completed;
       }

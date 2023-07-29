@@ -8,7 +8,7 @@ export const DeleteTaskModal = ({ toggleConfirmationModal, deleteTaskId }) => {
   const dispatch = useDispatch();
 
   const deleteTaskHandler = (taskId) => {
-    const updatedTaskList = toDoList.filter((task) => task.id != taskId);
+    const updatedTaskList = toDoList.filter((task) => task.id !== taskId);
     dispatch(setTodoList(updatedTaskList));
 
     /**We need to set our updatedTaskList to localstorage as redux state got empty but still we have last todo in localstorage that fills redux state again on refresh */
@@ -33,6 +33,7 @@ export const DeleteTaskModal = ({ toggleConfirmationModal, deleteTaskId }) => {
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

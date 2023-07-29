@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-
 /**
- * 
- * @returns - This component represents a toggle button for switching between light and dark themes. 
+ *
+ * @returns - This component represents a toggle button for switching between light and dark themes.
  */
 
 export const SwitchToggle = () => {
@@ -11,13 +10,13 @@ export const SwitchToggle = () => {
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
   );
 
-  const isThemeDark = theme == "dark";
+  const isThemeDark = theme === "dark";
 
   /**used to check whether the user's system prefers a dark color scheme or not. */
   const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
   const handleThemeToggle = () => {
-    setTheme(theme == "dark" ? "light" : "dark");
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   /**
@@ -26,7 +25,7 @@ If dark mode is detected, it sets the class "dark" on the root HTML element, ind
  */
   const onWindowMatch = () => {
     if (
-      localStorage.theme == "dark" ||
+      localStorage.theme === "dark" ||
       (darkQuery.matches && !("theme" in localStorage))
     ) {
       document.documentElement.classList.add("dark");
@@ -50,6 +49,7 @@ If dark mode is detected, it sets the class "dark" on the root HTML element, ind
       default:
         break;
     }
+    // eslint-disable-next-line
   }, [theme]);
 
   /* The code snippet is adding an event listener to the `darkQuery` object, which represents a media

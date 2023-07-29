@@ -11,7 +11,7 @@ export const EmptyTaskList = ({
     <div className={`self-center p-6 xs:p-10 flex flex-col justify-between border bg-white dark:bg-gradient-to-r dark:from-cyan-100 dark:to-blue-200 border-secondary-200 shadow-xl rounded-lg  ${isButtonPresent ? 'w-3/4' :'w-full md:w-5/4'} h-full sm:flex-row sm:h-96 gap-8 sm:gap-0 `}>
       <img
         src={emptyImage}
-        alt="empty-image"
+        alt="no-tasks"
         className="rounded-xl w-full sm:w-1/2 h-full sm:mr-6 self-center"
       />
       <div className="flex flex-col gap-4 sm:w-1/2 text-center justify-center w-full">

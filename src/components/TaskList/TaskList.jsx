@@ -129,17 +129,17 @@ export const TaskList = ({
         ) : (
           <EmptyTaskList
             emptyImage={
-              sortCriteria == "pending"
+              sortCriteria === "pending"
                 ? allTasksCompleted
                 : noTasksCompleted
             }
             title={
-              sortCriteria == "pending"
+              sortCriteria === "pending"
                 ? "No Tasks Pending Yet!"
                 : "No Tasks Completed Yet!"
             }
             description={
-              sortCriteria == "pending"
+              sortCriteria === "pending"
                 ? "Hooray! You have completed all your pending tasks. Well done! If there's anything else you need to do, feel free to add new tasks!"
                 : "Oops! It looks like there are no completed tasks yet. Keep up the good work and check back later to see your completed tasks."
             }

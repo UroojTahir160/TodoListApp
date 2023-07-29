@@ -30,6 +30,7 @@ export const TaskFormModal = ({
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

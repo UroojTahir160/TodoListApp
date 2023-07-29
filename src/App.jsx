@@ -38,8 +38,9 @@ function App() {
   //Sets new task with current task information if it's in edit mode. Current task contains id, title, desc, completed.
   useEffect(() => {
     if (currentTask) {
-      setNewTask(toDoList.find((task) => task.id == currentTask.id));
+      setNewTask(toDoList.find((task) => task.id === currentTask.id));
     }
+    // eslint-disable-next-line
   }, [currentTask]);
 
   /** It sets todoList(if exists) from redux to localStorage. This is done so that already existing todos do not disappear as page refreshes.  */
@@ -54,6 +55,7 @@ function App() {
   useEffect(() => {
     const localTodoTasks = JSON.parse(localStorage.getItem("todoList"));
     dispatch(setTodoList(localTodoTasks));
+    // eslint-disable-next-line
   }, []);
 
   const addTaskHandler = (todo) => {
