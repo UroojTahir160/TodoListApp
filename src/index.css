@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* It defines custom fonts "Poppins" and "Lora" using the @font-face rule, making them available to use in the project.  */
+@layer base {
+  @font-face {
+    font-family: "Poppins";
+    src: url(../public/fonts/Poppins-Regular.ttf);
+  }
+
+  @font-face {
+    font-family: "Lora";
+    src: url(../public/fonts/Lora-Italic.ttf);
+  }
+}
+
+/* It also includes a utility class .section-min-height, which sets the minimum height of elements to ensure they take up most of the screen's vertical space. */
+
+@layer utilities {
+  .section-min-height {
+    min-height: calc(100vh - 68px);
+  }
+}
