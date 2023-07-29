@@ -76,7 +76,7 @@ export const TaskList = ({
                   checked={task.completed}
                   type="checkbox"
                   id={task.id}
-                  className="peer appearance-none w-5 h-5 mr-5 border rounded-sm focus:outline-none checked:bg-primary-700 border-primary-700 after:checked:content-['\2713'] after:checked:text-white after:inline-block after:translate-x-[30%] after:translate-y-[-16%]"
+                  className="peer appearance-none w-5 h-5 mr-5 border rounded-sm focus:outline-none checked:bg-primary-700 border-primary-700 after:checked:content-['✓'] after:checked:text-white after:inline-block after:translate-x-[30%] after:translate-y-[-16%]"
                   onChange={(e) =>
                     dispatch(
                       taskCompletionToggle({
@@ -129,9 +129,7 @@ export const TaskList = ({
         ) : (
           <EmptyTaskList
             emptyImage={
-              sortCriteria === "pending"
-                ? allTasksCompleted
-                : noTasksCompleted
+              sortCriteria === "pending" ? allTasksCompleted : noTasksCompleted
             }
             title={
               sortCriteria === "pending"
