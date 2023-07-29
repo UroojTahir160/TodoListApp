@@ -111,7 +111,7 @@ function App() {
 
       <Header />
       <main class="mx-auto max-w-4xl flex justify-center align-middle section-min-height dark:bg-slate-900">
-        {toDoList.length > 0 ? (
+        {toDoList?.length > 0 ? (
           <TaskList
             toggleModal={toggleModal}
             onDeleteTask={onDeleteTask}

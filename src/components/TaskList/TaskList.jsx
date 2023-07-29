@@ -61,8 +61,8 @@ export const TaskList = ({
         </div>
       </div>
       <div className="flex flex-col gap-4" ref={todoListContainerRef}>
-        {currentTodoList.length > 0 ? (
-          currentTodoList.map((task) => (
+        {currentTodoList?.length > 0 ? (
+          currentTodoList?.map((task) => (
             <div
               className={`${
                 task.completed
