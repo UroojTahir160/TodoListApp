@@ -46,7 +46,7 @@ function App() {
   /** It sets todoList(if exists) from redux to localStorage. This is done so that already existing todos do not disappear as page refreshes.  */
   useEffect(() => {
     if (toDoList?.length > 0) {
-      localStorage.setItem("todoList", JSON.stringify(toDoList));
+      localStorage.setItem("todoList", JSON.stringify(toDoList || []));
     }
     console.log('useEffect todoList', toDoList);
   }, [toDoList]);
@@ -55,7 +55,8 @@ function App() {
 
   useEffect(() => {
     const localTodoTasks = JSON.parse(localStorage.getItem("todoList"));
-    dispatch(setTodoList(localTodoTasks));
+    console.log('localTodos: useEffsct', localTodoTasks);
+    dispatch(setTodoList(localTodoTasks || []));
     // eslint-disable-next-line
   }, []);
 
