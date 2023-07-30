@@ -14,7 +14,6 @@ export const TaskFormModal = ({
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      console.log(event.target);
       if (
         modelContainerRef.current &&
         !modelContainerRef.current.contains(event.target) &&

@@ -64,6 +64,8 @@ function App() {
       dispatch(updateTodoTask(newTask));
       setCurrentTask(null);
     } else {
+      console.log('title: ', todo.title);
+      console.log('decs: ', todo.description)
       //ADD TASK
       dispatch(
         addTodoTask({
@@ -88,6 +90,8 @@ function App() {
     setDeleteTaskId(taskId);
     toggleConfirmationModal();
   };
+
+  console.log('todo list out: ', toDoList)
 
   return (
     <div className="bg-gradient-to-r from-cyan-100 to-blue-200 dark:from-slate-900 dark:to-slate-900">
