@@ -45,7 +45,7 @@ function App() {
 
   /** It sets todoList(if exists) from redux to localStorage. This is done so that already existing todos do not disappear as page refreshes.  */
   useEffect(() => {
-    if (toDoList.length > 0) {
+    if (toDoList?.length > 0) {
       localStorage.setItem("todoList", JSON.stringify(toDoList));
     }
   }, [toDoList]);
