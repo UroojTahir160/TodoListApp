@@ -13,25 +13,16 @@ export const todoSlicer = createSlice({
       state.todoList = action.payload
     },
     addTodoTask: (state, action) => {
-      console.log('action:', action.payload);
       const newTask = {
         id: Date.now(),
         title: action.payload.title,
         description: action.payload.description,
         completed: false,
-      }
-      console.log('new Task: ', newTask);
-      console.log('state.todolist: BEFORE ', state.todoList);
-      state.todoList?.push(newTask);
-
-      console.log('state.todolist: AFTER   ', state.todoList);
-
-      // state.todoList?.push({
-      //   id: Date.now(),
-      //   title: action.payload.title,
-      //   description: action.payload.description,
-      //   completed: false,
-      // });
+      };
+      return {
+        ...state,
+        todoList: [...state.todoList, newTask],
+      };
     },
     updateTodoTask: (state, action) => {
       const { id, title, description, completed } = action.payload;
