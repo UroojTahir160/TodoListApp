@@ -48,14 +48,12 @@ function App() {
     if (toDoList?.length > 0) {
       localStorage.setItem("todoList", JSON.stringify(toDoList || []));
     }
-    console.log('useEffect todoList', toDoList);
   }, [toDoList]);
 
   /**After page refreshes, if there are any todos that are previously stored inside localstorage can be accessed from it and stored in redux*/
 
   useEffect(() => {
     const localTodoTasks = JSON.parse(localStorage.getItem("todoList"));
-    console.log('localTodos: useEffsct', localTodoTasks);
     dispatch(setTodoList(localTodoTasks || []));
     // eslint-disable-next-line
   }, []);
@@ -66,8 +64,6 @@ function App() {
       dispatch(updateTodoTask(newTask));
       setCurrentTask(null);
     } else {
-      console.log('title: ', todo.title);
-      console.log('decs: ', todo.description)
       //ADD TASK
       dispatch(
         addTodoTask({
@@ -75,8 +71,6 @@ function App() {
           description: todo.description,
         })
       );
-      console.log('after dispatch: ', toDoList)
-
       dispatch(sortTodoList("all"));
       // Scroll to the new todo after adding it to the list
       if (todoListContainerRef.current) {
@@ -94,8 +88,6 @@ function App() {
     setDeleteTaskId(taskId);
     toggleConfirmationModal();
   };
-
-  console.log('todo list out: ', toDoList)
 
   return (
     <div className="bg-gradient-to-r from-cyan-100 to-blue-200 dark:from-slate-900 dark:to-slate-900">
