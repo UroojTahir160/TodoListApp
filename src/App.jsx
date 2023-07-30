@@ -48,6 +48,7 @@ function App() {
     if (toDoList?.length > 0) {
       localStorage.setItem("todoList", JSON.stringify(toDoList));
     }
+    console.log('useEffect todoList', toDoList);
   }, [toDoList]);
 
   /**After page refreshes, if there are any todos that are previously stored inside localstorage can be accessed from it and stored in redux*/
@@ -73,6 +74,8 @@ function App() {
           description: todo.description,
         })
       );
+      console.log('after dispatch: ', toDoList)
+
       dispatch(sortTodoList("all"));
       // Scroll to the new todo after adding it to the list
       if (todoListContainerRef.current) {

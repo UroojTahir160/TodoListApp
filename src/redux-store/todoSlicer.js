@@ -13,6 +13,7 @@ export const todoSlicer = createSlice({
       state.todoList = action.payload
     },
     addTodoTask: (state, action) => {
+      console.log('action:', action.payload);
       state.todoList.push({
         id: Date.now(),
         title: action.payload.title,
