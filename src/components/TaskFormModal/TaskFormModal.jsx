@@ -43,7 +43,10 @@ export const TaskFormModal = ({
         </h2>
         <form
           class="flex flex-col gap-4"
-          onSubmit={() => addTaskHandler(newTask)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            addTaskHandler(newTask);
+          }}
         >
           <div className="flex flex-col gap-2">
             <label
