@@ -24,7 +24,7 @@ Follow these steps to get the TodoList app up and running on your local machine:
   - npm install
 - Start the Development Server
   - npm start
-  Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  - Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
 # Technologies Used
