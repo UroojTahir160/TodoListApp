@@ -8,7 +8,11 @@ export const EmptyTaskList = ({
   isButtonPresent,
 }) => {
   return (
-    <div className={`self-center p-6 xs:p-10 flex flex-col justify-between border bg-white dark:bg-gradient-to-r dark:from-cyan-100 dark:to-blue-200 border-secondary-200 shadow-xl rounded-lg  ${isButtonPresent ? 'w-3/4' :'w-full md:w-5/4'} h-full sm:flex-row sm:h-96 gap-8 sm:gap-0 `}>
+    <div
+      className={`self-center p-6 xs:p-10 flex flex-col justify-between border bg-white dark:bg-gradient-to-r dark:from-cyan-100 dark:to-blue-200 border-secondary-200 shadow-xl rounded-lg  ${
+        isButtonPresent ? "w-3/4" : "w-full md:w-5/4"
+      } h-full sm:flex-row sm:h-96 gap-8 sm:gap-0 `}
+    >
       <img
         src={emptyImage}
         alt="no-tasks"

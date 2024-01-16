@@ -22,3 +22,28 @@
     min-height: calc(100vh - 68px);
   }
 }
+
+input[type="checkbox"]:checked {
+  background-color: #0e7490;
+}
+input[type="checkbox"]:checked:after {
+  content: "\2713";
+  color: white;
+  top: 50%; /* Set top as a percentage */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+input[type="checkbox"] {
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  width: 20px !important;
+  height: 20px !important;
+  appearance: none;
+  border-radius: 10%;
+  border: 1px solid #1f3374;
+  box-shadow: none;
+  font-size: 1em;
+  position: relative;
+}
