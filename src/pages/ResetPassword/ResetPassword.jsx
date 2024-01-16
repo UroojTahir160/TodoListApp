@@ -87,7 +87,7 @@ const ResetPasswordPage = () => {
           </button>
         </form>
         <p className="text-gray-400 text-center">
-          -------------------OR-------------------
+          --------------OR--------------
         </p>
 
         <p className="text-gray-800 text-center text-base font-normal">

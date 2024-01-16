@@ -66,7 +66,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-cyan-100 to-blue-200 dark:from-slate-900 dark:to-slate-900 h-full md:h-screen xl:h-[calc(100vh-70px)] flex items-center justify-center">
+    <div className="bg-gradient-to-r from-cyan-100 to-blue-200 dark:from-slate-900 dark:to-slate-900 h-full lg:h-[calc(100vh-70px)] flex items-center justify-center">
       <div
         className={`self-center p-6 xs:p-10 flex flex-col border bg-white dark:bg-gradient-to-r dark:from-cyan-100 dark:to-blue-200 border-secondary-200 shadow-xl rounded-lg my-[50px] mx-[30px] md:[65%] lg:w-1/2 xl:w-[40%] xs:w-[80%] h-fit gap-6 items-center`}
       >
@@ -151,10 +151,10 @@ const SignUpPage = () => {
           </button>
         </form>
         <p className="text-gray-400 text-center">
-          -------------------OR-------------------
+          --------------OR--------------
         </p>
         <button
-          className="hover:border-primary-700 border bg-white text-primary-700 font-medium font-Poppins px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:border-primary-700 focus:ring focus:ring-primary-200 w-fit flex gap-4 justify-center text-sm lg:text-base"
+          className="hover:border-primary-700 border bg-white text-primary-700 font-medium font-Poppins px-4 py-2 rounded-md transition duration-300 focus:outline-none focus:border-primary-700 focus:ring focus:ring-primary-200 w-fit flex gap-4 justify-center items-center text-xs sm:text-sm lg:text-base"
           onClick={googleSignIn}
         >
           <FcGoogle size={24} />
