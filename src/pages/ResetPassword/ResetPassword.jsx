@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import { InputField } from "../../components/InputField/InputField";
 import forgetPassword from "../../firebase/auth/forgetPassword";
 import { toast } from "react-toastify";
 
 const ResetPasswordPage = () => {
-  const { user, setUser, googleSignIn } = useAuth();
   const navigate = useNavigate(); // Use useNavigate hook
 
   const [formData, setFormData] = useState({
