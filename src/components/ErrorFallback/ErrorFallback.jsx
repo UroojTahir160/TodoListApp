@@ -1,5 +1,4 @@
 export const ErrorFallback = ({ error, resetErrorBoundary }) => {
-  console.log('error: ', error);
   return (
     <div className="bg-gradient-to-r from-cyan-100 to-blue-200 dark:from-slate-900 dark:to-slate-900 h-[calc(100vh-70px)] flex items-center justify-center">
       <div

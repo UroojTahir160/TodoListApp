@@ -2,15 +2,12 @@ import { EmptyTaskList } from "../../components/EmptyTaskList/EmptyTaskList";
 import { useRef, useEffect, useState } from "react";
 import { TaskFormModal } from "../../components/TaskFormModal/TaskFormModal";
 import { TaskList } from "../../components/TaskList/TaskList";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addTodoTask,
-  setTodoList,
-  sortTodoList,
-  updateTodoTask,
-} from "../../redux-store/todoSlicer";
 import { DeleteTaskModal } from "../../components/DeleteTaskModal/DeleteTaskModal";
 import createTodoListImage from "../../assets/createTodoListImage.png";
+import todoCRUDServiceInstance from "../../services/todos.services";
+import { toast } from "react-toastify";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { useAuth } from "../../context/AuthContext";
 
 function HomePage() {
   const [currentTask, setCurrentTask] = useState(); //When modal is opened for editing task, the target task is stored in this state.
@@ -19,21 +16,38 @@ function HomePage() {
 
   const [showModal, setShowModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [firebaseTodoList, setFirebaseTodoList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+  const { user } = useAuth();
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    getTodos();
+    setCurrentUser(user);
+  }, [user]);
+
+  /** ----------------GET ALL TODOS QUERY------------------- */
+
+  const getTodos = async () => {
+    setLoading(true);
+    try {
+      const todos = await todoCRUDServiceInstance.getAllTodos();
+      const allTodosList = todos.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      setFirebaseTodoList(allTodosList);
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /** To get TodoList from redux state that is being set from localstorage 
   const toDoList = useSelector((state) => state.todo.todoList);
-
-  // const [timerTitle, setTimerTitle] = useState(0);
-
-  // const showTimer = () => {
-  //   setTimeout(() => {
-  //     setTimerTitle(timerTitle + 3);
-  //   }, 1000);
-  // };
-
-  // useEffect(() => {
-  //   showTimer();
-  // }, [timerTitle]);
+  */
 
   /** Ref to scroll to the new todo added */
   const todoListContainerRef = useRef(null);
@@ -46,55 +60,99 @@ function HomePage() {
     setShowConfirmationModal(!showConfirmationModal);
   };
 
-  //Sets new task with current task information if it's in edit mode. Current task contains id, title, desc, completed.
+  // Sets new task with current task information if it's in edit mode. Current task contains id, title, desc, completed.
   useEffect(() => {
     if (currentTask) {
-      setNewTask(toDoList.find((task) => task.id === currentTask.id));
+      setNewTask(firebaseTodoList.find((task) => task.id === currentTask.id));
     }
     // eslint-disable-next-line
   }, [currentTask]);
 
+  //-------------------REDUX IMPLEMENTATION----------------------------------
+
   /** It sets todoList(if exists) from redux to localStorage. This is done so that already existing todos do not disappear as page refreshes.  */
-  useEffect(() => {
-    if (toDoList?.length > 0) {
-      localStorage.setItem("todoList", JSON.stringify(toDoList || []));
-    }
-  }, [toDoList]);
+  // useEffect(() => {
+  //   if (toDoList?.length > 0) {
+  //     localStorage.setItem("todoList", JSON.stringify(toDoList || []));
+  //   }
+  // }, [toDoList]);
 
   /**After page refreshes, if there are any todos that are previously stored inside localstorage can be accessed from it and stored in redux*/
 
-  useEffect(() => {
-    const localTodoTasks = JSON.parse(localStorage.getItem("todoList"));
-    dispatch(setTodoList(localTodoTasks || []));
-    // eslint-disable-next-line
-  }, []);
+  // useEffect(() => {
+  //   const localTodoTasks = JSON.parse(localStorage.getItem("todoList"));
+  //   dispatch(setTodoList(localTodoTasks || []));
+  // }, []);
 
-  const addTaskHandler = (todo) => {
-    //UPDATE TASK
-    if (currentTask) {
-      dispatch(updateTodoTask(newTask));
-      setCurrentTask(null);
-    } else {
-      //ADD TASK
-      dispatch(
-        addTodoTask({
+  //-------------------REDUX IMPLEMENTATION----------------------------------
+
+  const AddUpdateTaskHandler = async (todo) => {
+    setLoading(true);
+    try {
+      /** ----------------UPDATE TODO QUERY------------------- */
+      if (currentTask) {
+        const updatedTask = {
+          ...currentTask,
           title: todo.title,
           description: todo.description,
-        })
-      );
-      dispatch(sortTodoList("all"));
-      // Scroll to the new todo after adding it to the list
-      if (todoListContainerRef.current) {
-        const newTodoElement = todoListContainerRef.current.lastElementChild;
-        if (newTodoElement) {
-          newTodoElement.scrollIntoView({ behavior: "smooth" });
-        }
+        };
+        await todoCRUDServiceInstance.updateTodo(currentTask.id, updatedTask);
+        setFirebaseTodoList((prevTaskList) =>
+          prevTaskList.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          )
+        );
+        toast.success("Todo has been updated successfully!");
+        setCurrentTask(null);
+      } else {
+        /** ----------------ADD TODO QUERY------------------- */
+        const newTask = {
+          title: todo.title,
+          description: todo.description,
+          completed: false,
+          userId: currentUser.uid,
+        };
+        await todoCRUDServiceInstance.addTodo(newTask);
+        setFirebaseTodoList((prevTaskList) => [newTask, ...prevTaskList]);
+
+        await getTodos();
+        toast.success("Todo has been added successfully!");
+
+        // dispatch(sortTodoList("all"));
       }
+      setNewTask({ title: "", description: "" });
+      toggleModal();
+    } catch (error) {
+      console.error("Error in AddUpdateTaskHandler:", error);
+      toast.error(error);
+    } finally {
+      setLoading(false);
     }
-    setNewTask({ title: "", description: "" });
-    toggleModal();
   };
 
+  /** ----------------DELETE TODO QUERY------------------- */
+
+  const deleteTaskHandler = async () => {
+    setLoading(true);
+    try {
+      await todoCRUDServiceInstance.deleteTodo(deleteTaskId);
+      const updatedTaskList = firebaseTodoList.filter(
+        (task) => task.id !== deleteTaskId
+      );
+      setFirebaseTodoList(updatedTaskList);
+      toast.success("Todo has been deleted!");
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+
+    // dispatch(setTodoList(updatedTaskList));
+
+    /**We need to set our updatedTaskList to localstorage as redux state got empty but still we have last todo in localstorage that fills redux state again on refresh */
+    // localStorage.setItem("todoList", JSON.stringify(updatedTaskList));
+    toggleConfirmationModal();
+  };
   const onDeleteTask = (taskId) => {
     setDeleteTaskId(taskId);
     toggleConfirmationModal();
@@ -106,26 +164,36 @@ function HomePage() {
         <TaskFormModal
           newTask={newTask}
           setNewTask={setNewTask}
-          addTaskHandler={addTaskHandler}
+          addTaskHandler={AddUpdateTaskHandler}
           toggleModal={toggleModal}
           currentTask={currentTask}
           setCurrentTask={setCurrentTask}
+          loading={loading}
         />
       )}
 
       {showConfirmationModal && (
         <DeleteTaskModal
           toggleConfirmationModal={toggleConfirmationModal}
-          deleteTaskId={deleteTaskId}
+          deleteTaskHandler={deleteTaskHandler}
+          setTaskList={setFirebaseTodoList}
+          setLoading={setLoading}
+          loading={loading}
         />
       )}
 
-      <main class="mx-auto max-w-4xl flex justify-center align-middle section-min-height dark:bg-slate-900">
-        {toDoList?.length > 0 ? (
+      <main className="mx-auto max-w-4xl flex justify-center align-middle section-min-height dark:bg-slate-900">
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <LoadingSpinner loading={loading} />
+          </div>
+        ) : firebaseTodoList && firebaseTodoList.length > 0 ? (
           <TaskList
+            getTodos={getTodos}
             toggleModal={toggleModal}
             onDeleteTask={onDeleteTask}
-            taskList={toDoList}
+            taskList={firebaseTodoList}
+            setTaskList={setFirebaseTodoList}
             setCurrentTask={setCurrentTask}
             todoListContainerRef={todoListContainerRef}
           />

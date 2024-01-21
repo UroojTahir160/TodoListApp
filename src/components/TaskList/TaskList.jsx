@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { SortCriteriaDropdown } from "./SortCriteriaDropdown";
 import { EmptyTaskList } from "../EmptyTaskList/EmptyTaskList";
 
-import {
-  sortTodoList,
-  taskCompletionToggle,
-} from "../../redux-store/todoSlicer";
+import { sortTodoList } from "../../redux-store/todoSlicer";
 import allTasksCompleted from "../../assets/allTasksCompleted.png";
 import noTasksCompleted from "../../assets/noTasksCompleted.png";
+import todoCRUDServiceInstance from "../../services/todos.services";
+import { toast } from "react-toastify";
 
 export const TaskList = ({
   taskList,
+  setTaskList,
   onDeleteTask,
   setCurrentTask,
   toggleModal,
@@ -23,6 +23,21 @@ export const TaskList = ({
   const onEditTask = (task) => {
     toggleModal();
     setCurrentTask(task);
+  };
+
+  const onToggleTask = async (updatedTask, isCompleted) => {
+    try {
+      await todoCRUDServiceInstance.toggleComplete(updatedTask);
+      setTaskList((prevTaskList) =>
+        prevTaskList.map((task) =>
+          task.id === updatedTask.id
+            ? { ...task, completed: isCompleted }
+            : task
+        )
+      );
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const sortCriteria = useSelector((state) => state.todo.sortCriteria);
@@ -40,7 +55,6 @@ export const TaskList = ({
   });
 
   // const sortedTasks = currentTodoList.sort((a, b) => (a.completed === b.completed ? 0 : a.completed ? 1 : -1));
-
   return (
     <div className="flex flex-col py-10 w-3/4 ">
       <div className="flex flex-col gap-4 xs:flex-row justify-between h-fit w-full mb-14">
@@ -76,15 +90,16 @@ export const TaskList = ({
                   checked={task.completed}
                   type="checkbox"
                   id={task.id}
-                  className="peer appearance-none w-5 h-5 mr-5 border rounded-sm focus:outline-none checked:bg-primary-700 border-primary-700 after:checked:content-['✓'] after:checked:text-white after:inline-block after:translate-x-[30%] after:translate-y-[-16%]"
-                  onChange={(e) =>
-                    dispatch(
-                      taskCompletionToggle({
-                        id: task.id,
-                        completed: e.target.checked,
-                      })
-                    )
-                  }
+                  className="peer cursor-pointer appearance-none w-5 h-5 mr-5 border rounded-sm focus:outline-none checked:bg-primary-700 border-primary-700 after:checked:content-['✓'] after:checked:text-white after:inline-block after:translate-x-[30%] after:translate-y-[-16%]"
+                  onChange={(e) => {
+                    // dispatch(
+                    //   taskCompletionToggle({
+                    //     id: task.id,
+                    //     completed: e.target.checked,
+                    //   })
+                    // );
+                    onToggleTask(task, e.target.checked);
+                  }}
                 />
 
                 <div className=" w-[175px] xs:w-auto">

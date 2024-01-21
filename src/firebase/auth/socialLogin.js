@@ -17,6 +17,7 @@ export async function signInWithGoogle() {
       photoURL: user.photoURL ?? "",
       phoneNumber: user.phoneNumber ?? "",
       phoneNumberVerified: !!user.phoneNumber,
+      uid: user.uid || "",
     };
 
     const splitDisplayName = user.displayName?.split(" ") ?? [];

@@ -8,7 +8,6 @@ import ProfileIcon from "../../assets/icons/profile-icon.png";
  */
 export const Header = () => {
   const { user } = useAuth();
-  user && console.log(user.photoURL);
   return (
     <header class="sticky top-0 bg-primary-900 z-10">
       <section class="flex flex-row mx-auto py-4 px-6 justify-between">

@@ -16,7 +16,6 @@ import ResetPasswordPage from "./pages/ResetPassword/ResetPassword";
 
 function App() {
   const { user } = useAuth();
-  console.log("App: ", user);
   return (
     <>
       <Router>

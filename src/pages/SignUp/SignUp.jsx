@@ -7,7 +7,6 @@ import signUp from "../../firebase/auth/signup";
 import { toast } from "react-toastify";
 
 const SignUpPage = () => {
-  console.log("signup");
   const { googleSignIn } = useAuth();
   const navigate = useNavigate();
 
@@ -53,7 +52,6 @@ const SignUpPage = () => {
     setFormErrors(errors);
 
     if (isValid) {
-      console.log(formData);
       signUp(formData.email, formData.password)
         .then((userCredential) => {
           navigate("/");

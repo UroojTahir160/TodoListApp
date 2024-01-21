@@ -1,20 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setTodoList } from "../../redux-store/todoSlicer";
 
-export const DeleteTaskModal = ({ toggleConfirmationModal, deleteTaskId }) => {
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+
+export const DeleteTaskModal = ({
+  toggleConfirmationModal,
+  deleteTaskHandler,
+  loading,
+}) => {
   const modelContainerRef = useRef(null);
-  const toDoList = useSelector((state) => state.todo.todoList);
-  const dispatch = useDispatch();
-
-  const deleteTaskHandler = (taskId) => {
-    const updatedTaskList = toDoList.filter((task) => task.id !== taskId);
-    dispatch(setTodoList(updatedTaskList));
-
-    /**We need to set our updatedTaskList to localstorage as redux state got empty but still we have last todo in localstorage that fills redux state again on refresh */
-    localStorage.setItem("todoList", JSON.stringify(updatedTaskList));
-    toggleConfirmationModal();
-  };
+  // const toDoList = useSelector((state) => state.todo.todoList);
+  // const dispatch = useDispatch();
 
   /* The `useEffect` hook in this code is used to add an event listener to the document for handling
   outside clicks for modal. */
@@ -57,9 +52,16 @@ export const DeleteTaskModal = ({ toggleConfirmationModal, deleteTaskId }) => {
             Cancel
           </button>
           <button
-            className="bg-primary-700 text-primary-50 px-6 py-2 rounded-md font-Poppins w-fit self-center hover:bg-primary-600 transition duration-300 ease-in-out"
-            onClick={() => deleteTaskHandler(deleteTaskId)}
+            className="bg-primary-700 flex items-center text-primary-50 px-6 py-2 rounded-md font-Poppins w-fit self-center hover:bg-primary-600 transition duration-300 ease-in-out"
+            onClick={() => deleteTaskHandler()}
           >
+            {loading && (
+              <LoadingSpinner
+                loading={loading}
+                className={"h-4 w-4 mr-2"}
+                color="white"
+              />
+            )}
             Confirm
           </button>
         </div>

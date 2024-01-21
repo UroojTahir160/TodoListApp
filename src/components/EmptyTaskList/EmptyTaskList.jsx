@@ -1,5 +1,4 @@
 /* The code is defining a React functional component called `EmptyTaskList`. It is used to render empty state of list when we have no todos created, no pending or no completed todos. */
-
 export const EmptyTaskList = ({
   emptyImage,
   title,

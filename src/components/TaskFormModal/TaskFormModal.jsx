@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 /*  This component is responsible for rendering a modal that allows users to add or update a task. */
 export const TaskFormModal = ({
@@ -8,6 +9,7 @@ export const TaskFormModal = ({
   setCurrentTask,
   addTaskHandler,
   toggleModal,
+  loading,
 }) => {
   /* It handles outside clicks to close the modal. */
   const modelContainerRef = useRef();
@@ -101,9 +103,10 @@ export const TaskFormModal = ({
               Cancel
             </button>
             <button
-              className="bg-primary-700 text-primary-50 px-6 py-2 rounded-md font-Poppins w-fit self-center hover:bg-primary-600 transition duration-300 ease-in-out"
+              className="bg-primary-700 items-center flex text-primary-50 px-6 py-2 rounded-md font-Poppins w-fit self-center hover:bg-primary-600 transition duration-300 ease-in-out"
               htmltype="submit"
             >
+              {loading && <LoadingSpinner loading={loading} color={"white"} className={"h-4 w-4 mr-2"} />}
               {currentTask ? "Save Changes" : "Add"}
             </button>
           </div>

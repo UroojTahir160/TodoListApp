@@ -71,7 +71,6 @@ const SignInPage = () => {
     setFormErrors(errors);
 
     if (isValid) {
-      console.log(formData);
       if (formData.rememberMe) {
         localStorage.setItem(
           "todo-data",

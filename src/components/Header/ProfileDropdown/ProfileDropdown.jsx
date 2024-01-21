@@ -38,9 +38,6 @@ export const ProfileDropdown = ({ photoURL }) => {
     onMenuItemClick();
   }
 
-
-console.log(photoURL);
-
   return (
     <div className="relative group cursor-pointer" ref={dropdownRef}>
       <img
