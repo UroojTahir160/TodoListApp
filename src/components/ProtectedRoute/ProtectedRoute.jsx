@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const { user } = useAuth() || {};
   let location = useLocation();
 
-  if (!user) {
+  if ((user && !user.emailVerified) || !user) {
     if (location.pathname !== "/signin") {
       return <Navigate to="/signin" state={{ from: location }} replace />;
     }

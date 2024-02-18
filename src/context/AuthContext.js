@@ -4,6 +4,7 @@ import { signInWithGoogle } from "../firebase/auth/socialLogin";
 import { toast } from "react-toastify";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebase_app from "../firebase/init";
+import { useLocation } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -14,6 +15,7 @@ export const useAuth = () => {
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const auth = getAuth(firebase_app);
+  const location = useLocation();
 
   const googleSignIn = async () => {
     const { result, error } = await signInWithGoogle();
@@ -26,8 +28,8 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-
-      if (currentUser) {
+      if (currentUser && !location.pathname.includes("reset-password")) {
+        // Check if not on reset password page
         setUser(currentUser);
       } else {
         setUser(null);

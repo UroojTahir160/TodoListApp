@@ -5,9 +5,13 @@ import { useAuth } from "../../context/AuthContext";
 import { InputField } from "../../components/InputField/InputField";
 import signUp from "../../firebase/auth/signup";
 import { toast } from "react-toastify";
+import { getAuth, sendEmailVerification, updateProfile } from "firebase/auth";
+import firebase_app from "../../firebase/init";
 
 const SignUpPage = () => {
   const { googleSignIn } = useAuth();
+  const auth = getAuth(firebase_app);
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -54,8 +58,17 @@ const SignUpPage = () => {
     if (isValid) {
       signUp(formData.email, formData.password)
         .then((userCredential) => {
-          navigate("/");
-          toast.success("User has registered successfully!");
+          updateProfile(auth.currentUser, {
+            displayName: formData.firstName + formData.lastName,
+          });
+          sendEmailVerification(auth.currentUser).then(() => {
+            navigate("/signin");
+            toast.success(
+              "Verification Email has been sent to your registered email!"
+            );
+          });
+
+          // toast.success("User has registered successfully!");
         })
         .catch((error) => {
           toast.error(`${error.message}!`);

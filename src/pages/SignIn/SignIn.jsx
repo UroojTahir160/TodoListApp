@@ -12,7 +12,7 @@ const SignInPage = () => {
   const navigate = useNavigate(); // Use useNavigate hook
 
   useEffect(() => {
-    if (user) navigate("/");
+    if (user && user.emailVerified) navigate("/");
   }, [user]);
 
   const [formData, setFormData] = useState({
@@ -88,10 +88,15 @@ const SignInPage = () => {
       signIn(formData.email, formData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          setUser(user);
-
-          toast.success(`Welcome ${user.email}!`);
-          navigate("/");
+          if (user.emailVerified) {
+            setUser(user);
+            toast.success(`Welcome ${user.email}!`);
+            navigate("/");
+          } else {
+            toast.error(
+              "Please verify your email using link sent to your registered email!"
+            );
+          }
         })
         .catch((error) => {
           toast.error(`${error.message}!`);
@@ -151,7 +156,7 @@ const SignInPage = () => {
               </div>
               <div className="justify-end flex">
                 <Link
-                  to={"/reset-password"}
+                  to={"/forget-password"}
                   className="text-sm font-normal text-dull-blue opacity-8  hover:underline text-blue-500"
                 >
                   Forgot Password ?
